@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build and generated output
+dist/
+build/
+output/
+generated/
+.cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary Marp/browser artifacts
+*.tmp
+*.log
+coverage/
+
