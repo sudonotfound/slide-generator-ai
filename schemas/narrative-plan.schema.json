@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/slide-generator-ai/schemas/narrative-plan.schema.json",
+  "title": "Narrative Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["thesis", "storyPattern"],
+  "properties": {
+    "thesis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storyPattern": {
+      "type": "string",
+      "enum": [
+        "problem-to-solution",
+        "experience-to-learning",
+        "question-to-answer",
+        "before-after",
+        "explanation"
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "purpose": { "type": "string" },
+          "slideIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

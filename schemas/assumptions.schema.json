@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/slide-generator-ai/schemas/assumptions.schema.json",
+  "title": "Assumptions",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "statement", "source", "confidence", "impact", "status"],
+    "properties": {
+      "id": { "type": "string", "minLength": 1 },
+      "statement": { "type": "string", "minLength": 1 },
+      "source": {
+        "type": "string",
+        "enum": ["user-input", "source-document", "ai-inference"]
+      },
+      "confidence": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "impact": {
+        "type": "string",
+        "enum": ["low", "medium", "high"]
+      },
+      "status": {
+        "type": "string",
+        "enum": ["confirmed", "needs-confirmation", "rejected"]
+      }
+    }
+  }
+}

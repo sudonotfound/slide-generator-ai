@@ -1,0 +1,261 @@
+{
+  "$schema": "../schemas/slide-document.schema.json",
+  "schemaVersion": "0.1.0",
+  "meta": {
+    "title": "AIと一緒にLT資料を作る",
+    "author": "",
+    "language": "ja",
+    "theme": "lt-technical-clean",
+    "pageRatio": "16:9"
+  },
+  "context": {
+    "presentationType": "lightning-talk",
+    "purpose": "AIと対話しながら資料を作る考え方を共有する",
+    "desiredOutcome": "聴衆が自分の資料作成にもAIを取り入れる方法を理解する",
+    "audience": {
+      "role": "技術に関心のある開発者",
+      "knowledgeLevel": "mixed",
+      "knownTopics": ["Markdown", "Git"],
+      "unknownTopics": ["AI向けスライド生成の設計"]
+    },
+    "occasion": {
+      "type": "technical-lightning-talk",
+      "durationMinutes": 5,
+      "maxSlides": 8
+    },
+    "tone": "親しみやすく実践的",
+    "medium": "projector",
+    "informationDensity": "low",
+    "language": "ja"
+  },
+  "assumptions": [
+    {
+      "id": "a-001",
+      "statement": "聴衆は基本的なスライド資料を見た経験がある",
+      "source": "user-input",
+      "confidence": 0.9,
+      "impact": "medium",
+      "status": "confirmed"
+    },
+    {
+      "id": "a-002",
+      "statement": "聴衆はJSONの詳細な構造までは知らない",
+      "source": "ai-inference",
+      "confidence": 0.7,
+      "impact": "high",
+      "status": "needs-confirmation"
+    }
+  ],
+  "narrative": {
+    "thesis": "AIに資料を作らせるには、生成前の前提とデザインのルールを明示することが重要である",
+    "storyPattern": "problem-to-solution",
+    "sections": [
+      {
+        "id": "section-01",
+        "title": "問題提起",
+        "purpose": "AIにいきなり完成資料を求める難しさを示す",
+        "slideIds": ["slide-01", "slide-02"]
+      },
+      {
+        "id": "section-02",
+        "title": "設計方針",
+        "purpose": "前提・JSON・コンポーネントの役割を説明する",
+        "slideIds": ["slide-03", "slide-04", "slide-05"]
+      },
+      {
+        "id": "section-03",
+        "title": "まとめ",
+        "purpose": "段階的にAIと資料を作る方法を整理する",
+        "slideIds": ["slide-06"]
+      }
+    ]
+  },
+  "slides": [
+    {
+      "id": "slide-01",
+      "role": "cover",
+      "purpose": "テーマを提示する",
+      "message": "AIと一緒にLT資料を作る",
+      "pageTemplate": "cover-hero",
+      "design": {
+        "variant": "default",
+        "density": "low"
+      },
+      "regions": {
+        "header": [
+          {
+            "component": "slide-heading",
+            "props": {
+              "text": "AIと一緒にLT資料を作る"
+            }
+          }
+        ],
+        "main": [
+          {
+            "component": "body-text",
+            "props": {
+              "text": "前提を整理し、対話しながら資料を育てる"
+            }
+          }
+        ]
+      },
+      "speakerNotes": "最初に、AIに一度で完璧な資料を作らせる話ではないことを伝える。"
+    },
+    {
+      "id": "slide-02",
+      "role": "problem",
+      "purpose": "いきなり生成する問題を示す",
+      "message": "前提が共有されていないと、AIは資料の目的を誤解する",
+      "pageTemplate": "message",
+      "design": {
+        "variant": "accent",
+        "density": "low"
+      },
+      "regions": {
+        "main": [
+          {
+            "component": "quote",
+            "props": {
+              "text": "スライドを作ってください。"
+            }
+          },
+          {
+            "component": "body-text",
+            "props": {
+              "text": "この依頼だけでは、誰に何を伝える資料か分からない。"
+            }
+          }
+        ]
+      },
+      "speakerNotes": "AIに依頼する前に、資料の前提を整理する必要がある。"
+    },
+    {
+      "id": "slide-03",
+      "role": "context",
+      "purpose": "生成前に整理する情報を示す",
+      "message": "目的・対象者・利用場面を先に定義する",
+      "pageTemplate": "two-column",
+      "design": {
+        "variant": "default",
+        "density": "medium"
+      },
+      "regions": {
+        "header": [
+          {
+            "component": "slide-heading",
+            "props": {
+              "text": "生成前に整理すること"
+            }
+          }
+        ],
+        "left": [
+          {
+            "component": "card-grid",
+            "props": {
+              "items": ["目的", "対象者", "利用場面"]
+            }
+          }
+        ],
+        "right": [
+          {
+            "component": "body-text",
+            "props": {
+              "text": "AIが推測した前提は、明示された情報と区別して管理する。"
+            }
+          }
+        ]
+      },
+      "speakerNotes": "この資料ではPresentationContextとAssumptionsとして管理する。"
+    },
+    {
+      "id": "slide-04",
+      "role": "model",
+      "purpose": "JSONの役割を説明する",
+      "message": "JSONは資料の内容・意図・構造を管理する",
+      "pageTemplate": "process",
+      "design": {
+        "variant": "default",
+        "density": "medium"
+      },
+      "regions": {
+        "header": [
+          {
+            "component": "slide-heading",
+            "props": {
+              "text": "JSONを資料の正本にする"
+            }
+          }
+        ],
+        "main": [
+          {
+            "component": "process-diagram",
+            "props": {
+              "steps": ["前提", "構成", "各スライド", "出力"]
+            }
+          }
+        ]
+      },
+      "speakerNotes": "Markdownは人間の編集形式ではなく、Marp出力用の中間形式として扱う。"
+    },
+    {
+      "id": "slide-05",
+      "role": "design-system",
+      "purpose": "デザインコンポーネントの役割を説明する",
+      "message": "ページテンプレートと内部コンポーネントを組み合わせる",
+      "pageTemplate": "two-column",
+      "design": {
+        "variant": "default",
+        "density": "medium"
+      },
+      "regions": {
+        "header": [
+          {
+            "component": "slide-heading",
+            "props": {
+              "text": "デザインをコンポーネント化する"
+            }
+          }
+        ],
+        "left": [
+          {
+            "component": "body-text",
+            "props": {
+              "text": "ページ全体の構造をテンプレートとして管理する。"
+            }
+          }
+        ],
+        "right": [
+          {
+            "component": "body-text",
+            "props": {
+              "text": "表・図・コードなどはページ内部の部品として再利用する。"
+            }
+          }
+        ]
+      },
+      "speakerNotes": "デザインを追加するときは、資料専用、資料内、共通テンプレートの順に昇格させる。"
+    },
+    {
+      "id": "slide-06",
+      "role": "closing",
+      "purpose": "作成方法をまとめる",
+      "message": "AIに都度指示を出しながら資料を育てる",
+      "pageTemplate": "closing",
+      "design": {
+        "variant": "default",
+        "density": "low"
+      },
+      "regions": {
+        "main": [
+          {
+            "component": "body-text",
+            "props": {
+              "text": "前提を整理する。JSONを更新する。出力を確認する。"
+            }
+          }
+        ]
+      },
+      "speakerNotes": "最初から完璧を目指さず、AIとの対話で段階的に改善する。"
+    }
+  ]
+}

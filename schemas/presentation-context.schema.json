@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/slide-generator-ai/schemas/presentation-context.schema.json",
+  "title": "Presentation Context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["purpose", "audience", "occasion"],
+  "properties": {
+    "presentationType": {
+      "type": "string",
+      "default": "lightning-talk"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "desiredOutcome": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "knowledgeLevel"],
+      "properties": {
+        "role": { "type": "string" },
+        "knowledgeLevel": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "mixed"]
+        },
+        "knownTopics": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "unknownTopics": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "occasion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "durationMinutes"],
+      "properties": {
+        "type": { "type": "string" },
+        "durationMinutes": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxSlides": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "tone": { "type": "string" },
+    "medium": { "type": "string" },
+    "informationDensity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "language": {
+      "type": "string",
+      "default": "ja"
+    }
+  }
+}
