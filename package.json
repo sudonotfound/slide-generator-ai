@@ -1,0 +1,18 @@
+{
+  "name": "ai-slide-generator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-first slide generation pipeline based on a JSON slide document and Marp.",
+  "type": "commonjs",
+  "scripts": {
+    "validate": "node src/cli.js validate examples/sample-lt.json",
+    "markdown": "node src/cli.js markdown examples/sample-lt.json",
+    "render": "node src/cli.js render examples/sample-lt.json",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "^4.2.3",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}
