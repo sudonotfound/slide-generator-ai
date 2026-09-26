@@ -55,7 +55,7 @@ node src/cli.js render examples/sample-lt.json --format pdf
 node src/cli.js render examples/sample-lt.json --format png
 ```
 
-PDF・PNG出力はMarpが内部で使用するChromiumが必要です。HTML出力にはブラウザ実行環境は不要ですが、PDF・PNGを使う環境ではChromiumの起動条件も確認してください。PNGは`dist/sample-lt-images/`にページごとに出力されます。
+PDF・PNG出力はMarpが内部で使用するChromiumが必要です。HTML出力にはブラウザ実行環境は不要ですが、PDF・PNGを使う環境ではChromiumの起動条件も確認してください。PNGはMarpの仕様により、`dist/sample-lt-images.001`〜`dist/sample-lt-images.006`のようにページごとのファイルとして出力されます。
 
 生成されたHTMLをブラウザで開くことで、AIが作成したスライドを確認できます。編集はHTMLを直接変更せず、JSONをAIとの対話で更新して再生成します。
 
