@@ -11,12 +11,17 @@
     "meta": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "language", "theme"],
+      "required": ["title", "language"],
+      "anyOf": [
+        { "required": ["theme"] },
+        { "required": ["designPackage"] }
+      ],
       "properties": {
         "title": { "type": "string", "minLength": 1 },
         "author": { "type": "string" },
         "language": { "type": "string" },
         "theme": { "type": "string" },
+        "designPackage": { "type": "string", "minLength": 1 },
         "pageRatio": { "type": "string", "enum": ["16:9", "4:3"] }
       }
     },

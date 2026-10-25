@@ -6,6 +6,7 @@
     "author": "",
     "language": "ja",
     "theme": "lt-technical-clean",
+    "designPackage": "../designs/technical-lt",
     "pageRatio": "16:9"
   },
   "context": {

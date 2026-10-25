@@ -52,6 +52,27 @@ section::after {
 .process__step:not(:last-child)::after { color: var(--tc-accent); content: "→"; font-size: 28px; position: absolute; right: -23px; top: 50%; }
 `;
 
+function createThemeCss(designPackage) {
+  const tokens = designPackage && designPackage.foundation.tokens;
+  if (!tokens) return themeCss;
+  const { colors: c, typography: t, spacing: s, shape: sh } = tokens;
+  return `${themeCss}
+:root { --tc-ink:${c.text}; --tc-muted:${c.muted}; --tc-accent:${c.accent}; --tc-accent-soft:${c.accentSoft}; --tc-border:${c.border}; --tc-surface:${c.surface}; --tc-surface-soft:${c.background}; }
+section { background:${c.background}; font-family:${t.fontFamily}; padding:${s.pageY}px ${s.pageX}px; }
+.slide { gap:${s.contentGap}px; } .slide__title { font-size:${t.titlePx}px; }
+.slide__message,.body-text { font-size:${t.bodyPx}px; } .body-text--small { font-size:${t.smallPx}px; }
+.slide--cover-hero .slide__title { font-size:${t.coverTitlePx}px; }
+.slide--two-column .slide__main { gap:${s.columnGap}px; }
+.quote { border-left-width:${sh.quoteBorder}px; font-size:${t.quotePx}px; }
+.card { border-width:${sh.cardBorder}px; border-radius:${sh.cardRadius}px; }
+.card-grid { gap:${s.componentGap}px; }
+.process--vertical { flex-direction:column; }
+.process--vertical .process__step:not(:last-child)::after { content:"↓"; bottom:-26px; left:50%; right:auto; top:auto; }
+.card-grid--compact .card { padding:14px 16px; }
+.card-grid--compact .card__text { font-size:19px; }
+`;
+}
+
 function renderHeading(node) {
   const level = node.variant === "small" ? 3 : 1;
   const className = level === 3 ? "slide__title slide__title--small" : "slide__title";
@@ -70,15 +91,21 @@ function renderQuote(node) {
 function renderCardGrid(node) {
   const items = Array.isArray(node.props.items) ? node.props.items : [];
   const cards = items
-    .map((item, index) => `<div class="card"><div class="card__label">${String(index + 1).padStart(2, "0")}</div><div class="card__text">${escapeHtml(item)}</div></div>`)
+    .map((item, index) => {
+      const data = typeof item === "string" ? { body: item } : item;
+      return `<div class="card"><div class="card__label">${escapeHtml(data.title || String(index + 1).padStart(2, "0"))}</div><div class="card__text">${escapeHtml(data.body || data.text || "")}</div></div>`;
+    })
     .join("\n");
-  return `<div class="card-grid">${cards}</div>`;
+  const density = node.variant || (items.length > 4 ? "compact" : "default");
+  const columns = node.props.columns || (items.length <= 2 ? items.length : items.length <= 4 ? 2 : 3);
+  return `<div class="card-grid card-grid--${escapeAttribute(density)}" style="grid-template-columns:repeat(${Math.max(1, Math.min(3, Number(columns) || 1))}, minmax(0, 1fr))">${cards}</div>`;
 }
 
 function renderProcessDiagram(node) {
   const steps = Array.isArray(node.props.steps) ? node.props.steps : [];
   const items = steps.map((step) => `<li class="process__step">${escapeHtml(step)}</li>`).join("\n");
-  return `<ol class="process">${items}</ol>`;
+  const orientation = node.variant || (steps.length > 4 ? "vertical" : "horizontal");
+  return `<ol class="process process--${escapeAttribute(orientation)}">${items}</ol>`;
 }
 
 function renderBulletList(node) {
@@ -153,7 +180,7 @@ function renderSlide(slide, index) {
   return `<!-- _class: ${escapeAttribute(slide.pageTemplate)}${pageClass} -->\n${renderTemplate(slide)}${notes}`;
 }
 
-function renderTechnicalClean(document) {
+function renderTechnicalClean(document, designPackage) {
   const frontMatter = [
     "---",
     "marp: true",
@@ -161,7 +188,7 @@ function renderTechnicalClean(document) {
     "paginate: true",
     "size: 16:9",
     "---",
-    `<style>${themeCss}</style>`
+    `<style>${createThemeCss(designPackage)}</style>`
   ].join("\n");
   const slides = document.slides.map(renderSlide).join("\n\n---\n\n");
   return `${frontMatter}\n\n${slides}\n`;
@@ -171,7 +198,8 @@ const themeRegistry = {
   "lt-technical-clean": renderTechnicalClean
 };
 
-function renderPresentation(document) {
+function renderPresentation(document, designPackage) {
+  if (designPackage) return renderTechnicalClean(document, designPackage);
   const theme = document.meta && document.meta.theme;
   const renderer = themeRegistry[theme];
   if (!renderer) {
@@ -184,6 +212,7 @@ module.exports = {
   componentRegistry,
   renderComponent,
   renderPresentation,
+  createThemeCss,
   themeCss,
   themeRegistry
 };

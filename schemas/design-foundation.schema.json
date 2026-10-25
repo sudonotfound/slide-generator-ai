@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/slide-generator-ai/schemas/design-foundation.schema.json",
+  "title": "Design Foundation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "name", "tokens"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["reference-image", "reference-pdf", "manual", "inferred"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colors", "typography", "spacing", "shape"],
+      "properties": {
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text", "muted", "accent", "accentSoft", "background", "surface", "border"],
+          "properties": {
+            "text": { "$ref": "#/$defs/color" },
+            "muted": { "$ref": "#/$defs/color" },
+            "accent": { "$ref": "#/$defs/color" },
+            "accentSoft": { "$ref": "#/$defs/color" },
+            "background": { "$ref": "#/$defs/color" },
+            "surface": { "$ref": "#/$defs/color" },
+            "border": { "$ref": "#/$defs/color" }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fontFamily", "titlePx", "coverTitlePx", "bodyPx", "smallPx", "quotePx"],
+          "properties": {
+          "fontFamily": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9 ,.'-]+$" },
+            "titlePx": { "$ref": "#/$defs/size" },
+            "coverTitlePx": { "$ref": "#/$defs/size" },
+            "bodyPx": { "$ref": "#/$defs/size" },
+            "smallPx": { "$ref": "#/$defs/size" },
+            "quotePx": { "$ref": "#/$defs/size" }
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pageX", "pageY", "contentGap", "columnGap", "componentGap"],
+          "properties": {
+            "pageX": { "$ref": "#/$defs/size" },
+            "pageY": { "$ref": "#/$defs/size" },
+            "contentGap": { "$ref": "#/$defs/size" },
+            "columnGap": { "$ref": "#/$defs/size" },
+            "componentGap": { "$ref": "#/$defs/size" }
+          }
+        },
+        "shape": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cardRadius", "cardBorder", "quoteBorder"],
+          "properties": {
+            "cardRadius": { "$ref": "#/$defs/size" },
+            "cardBorder": { "$ref": "#/$defs/size" },
+            "quoteBorder": { "$ref": "#/$defs/size" }
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+    "size": { "type": "integer", "minimum": 1, "maximum": 240 }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "../../schemas/design-foundation.schema.json",
+  "id": "technical-clean",
+  "version": "0.2.0",
+  "name": "Technical Clean",
+  "description": "技術共有向けの明るく読みやすい基底デザイン。",
+  "source": {
+    "kind": "manual",
+    "notes": "初期実装のTechnical Cleanテーマを分離したもの。参考画像・PDF由来のルールではない。"
+  },
+  "tokens": {
+    "colors": {
+      "text": "#172033",
+      "muted": "#60708A",
+      "accent": "#2463EB",
+      "accentSoft": "#EAF1FF",
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "border": "#D9E1EE"
+    },
+    "typography": {
+      "fontFamily": "Inter, Hiragino Sans, Yu Gothic, sans-serif",
+      "titlePx": 48,
+      "coverTitlePx": 64,
+      "bodyPx": 25,
+      "smallPx": 18,
+      "quotePx": 34
+    },
+    "spacing": {
+      "pageX": 76,
+      "pageY": 64,
+      "contentGap": 26,
+      "columnGap": 32,
+      "componentGap": 16
+    },
+    "shape": {
+      "cardRadius": 16,
+      "cardBorder": 1,
+      "quoteBorder": 8
+    }
+  },
+  "rules": [
+    "投影環境で本文を読み取れる大きさに保つ。",
+    "強調色は主張や重要な要素に限定する。",
+    "一枚に複数の主張を詰め込まない。"
+  ]
+}

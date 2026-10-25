@@ -4,12 +4,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
-const { loadAndValidate } = require("./lib/validate");
+const { loadAndValidate, loadDesignPackage, loadDesignPackageForDocument, validateDocumentAgainstDesign } = require("./lib/validate");
 const { generateMarkdown } = require("./lib/markdown");
 
 function printUsage() {
   console.log(`Usage:
   node src/cli.js validate <presentation.json>
+  node src/cli.js validate-design <design-package-directory>
   node src/cli.js markdown <presentation.json> [--output <file>]
   node src/cli.js render <presentation.json> [--output <file>] [--markdown-output <file>] [--format html|pdf|png]
 
@@ -44,8 +45,8 @@ function ensureParent(filePath) {
   fs.mkdirSync(path.dirname(path.resolve(filePath)), { recursive: true });
 }
 
-function writeMarkdown(document, inputPath, outputPath) {
-  const markdown = generateMarkdown(document);
+function writeMarkdown(document, inputPath, outputPath, designPackage) {
+  const markdown = generateMarkdown(document, designPackage);
   const target = outputPath || defaultMarkdownPath(inputPath);
   ensureParent(target);
   fs.writeFileSync(target, markdown, "utf8");
@@ -78,13 +79,23 @@ function renderWithMarp(markdownPath, outputPath, format) {
 
 function main() {
   const [, , command, input = "examples/sample-lt.json", ...options] = process.argv;
-  if (!command || !["validate", "markdown", "render"].includes(command)) {
+  if (!command || !["validate", "validate-design", "markdown", "render"].includes(command)) {
     printUsage();
     process.exitCode = 1;
     return;
   }
 
+  if (command === "validate-design") {
+    const design = loadDesignPackage(input);
+    console.log(`Valid design package: ${input}`);
+    console.log(`Foundation: ${design.foundation.name} (${design.foundation.version})`);
+    console.log(`Template: ${design.template.name} (${design.template.version})`);
+    return;
+  }
+
   const document = loadAndValidate(input);
+  const designPackage = loadDesignPackageForDocument(document, input);
+  validateDocumentAgainstDesign(document, designPackage);
 
   if (command === "validate") {
     console.log(`Valid: ${input}`);
@@ -93,13 +104,13 @@ function main() {
   }
 
   if (command === "markdown") {
-    const markdownPath = writeMarkdown(document, input, readOption(options, "--output"));
+    const markdownPath = writeMarkdown(document, input, readOption(options, "--output"), designPackage);
     console.log(`Generated: ${markdownPath}`);
     return;
   }
 
   if (command === "render") {
-    const markdownPath = writeMarkdown(document, input, readOption(options, "--markdown-output"));
+    const markdownPath = writeMarkdown(document, input, readOption(options, "--markdown-output"), designPackage);
     console.log(`Generated: ${markdownPath}`);
     const format = readOption(options, "--format") || "html";
     if (!["html", "pdf", "png"].includes(format)) {

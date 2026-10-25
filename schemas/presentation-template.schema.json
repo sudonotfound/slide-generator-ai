@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/slide-generator-ai/schemas/presentation-template.schema.json",
+  "title": "Presentation Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "name", "designFoundation", "useCase", "pageTemplates"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "designFoundation": { "type": "string", "minLength": 1 },
+    "useCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose"],
+      "properties": {
+        "purpose": { "type": "string", "minLength": 1 },
+        "audience": { "type": "string" },
+        "durationMinutes": { "type": "integer", "minimum": 1 },
+        "sourceNotes": { "type": "string" }
+      }
+    },
+    "compositionRules": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "pageTemplates": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["regions", "allowedComponents"],
+        "properties": {
+          "regions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-zA-Z0-9-]*$" }
+          },
+          "allowedComponents": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "defaultDensity": { "type": "string", "enum": ["low", "medium", "high"] },
+          "maxTitleLines": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "deckPatterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "steps"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "name": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role", "purpose"],
+              "properties": {
+                "role": { "type": "string" },
+                "purpose": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "recommendedPageTemplate": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxConsecutiveSamePageTemplate": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "allowSlideOverrides": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

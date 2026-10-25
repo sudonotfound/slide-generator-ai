@@ -1,0 +1,68 @@
+{
+  "$schema": "../../schemas/presentation-template.schema.json",
+  "id": "technical-lt",
+  "version": "0.2.0",
+  "name": "Technical Lightning Talk",
+  "description": "初心者から中級者向けの技術LTを作るための用途別テンプレート。",
+  "designFoundation": "./foundation.json",
+  "useCase": {
+    "purpose": "技術的な知見や経験を短時間で共有する",
+    "audience": "技術に関心のある初心者から中級者",
+    "durationMinutes": 5,
+    "sourceNotes": "初期の技術LT想定。利用者が共有した参考画像・PDFから更新する。"
+  },
+  "compositionRules": [
+    "冒頭で話題と聴衆にとっての関係を示す。",
+    "説明だけでなく、課題・発見・具体例など内容に合う展開を選ぶ。",
+    "最後に要点または次の行動を示す。"
+  ],
+  "pageTemplates": {
+    "cover-hero": {
+      "regions": ["header", "main"],
+      "allowedComponents": ["slide-heading", "body-text"],
+      "defaultDensity": "low",
+      "maxTitleLines": 2
+    },
+    "message": {
+      "regions": ["header", "main"],
+      "allowedComponents": ["slide-heading", "body-text", "quote", "bullet-list", "card-grid"],
+      "defaultDensity": "low",
+      "maxTitleLines": 2
+    },
+    "two-column": {
+      "regions": ["header", "left", "right"],
+      "allowedComponents": ["slide-heading", "body-text", "quote", "bullet-list", "card-grid", "code-block"],
+      "defaultDensity": "medium",
+      "maxTitleLines": 2
+    },
+    "process": {
+      "regions": ["header", "main"],
+      "allowedComponents": ["slide-heading", "body-text", "process-diagram"],
+      "defaultDensity": "medium",
+      "maxTitleLines": 2
+    },
+    "closing": {
+      "regions": ["header", "main"],
+      "allowedComponents": ["slide-heading", "body-text", "quote"],
+      "defaultDensity": "low",
+      "maxTitleLines": 2
+    }
+  },
+  "deckPatterns": [
+    {
+      "id": "problem-to-insight",
+      "name": "課題から気づきへ",
+      "steps": [
+        { "role": "opening", "purpose": "テーマと聴衆との関係を示す", "recommendedPageTemplate": "cover-hero" },
+        { "role": "problem", "purpose": "課題や問いを提示する", "recommendedPageTemplate": "message" },
+        { "role": "context", "purpose": "背景や前提を共有する", "recommendedPageTemplate": "two-column" },
+        { "role": "insight", "purpose": "発見や解決の要点を伝える", "recommendedPageTemplate": "process" },
+        { "role": "closing", "purpose": "要点をまとめる", "recommendedPageTemplate": "closing" }
+      ]
+    }
+  ],
+  "rules": {
+    "maxConsecutiveSamePageTemplate": 2,
+    "allowSlideOverrides": true
+  }
+}
