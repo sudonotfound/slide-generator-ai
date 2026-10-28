@@ -2,6 +2,7 @@
   "name": "ai-slide-generator",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "AI-first slide generation pipeline based on a JSON slide document and Marp.",
   "type": "commonjs",
   "scripts": {
